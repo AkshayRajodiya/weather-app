@@ -1,8 +1,40 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 
 
 function App() {
+  const [currentLatLon, setCurrentLatLon] = useState({lat: '', lon: ''})
+
+  const fetchCurrentWeatherData = () => {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${currentLatLon.lat}&lon=${currentLatLon.lon}&units=metric&AppId=${api.key}`)
+      .then(res=>res.json()
+      .then(result=>{
+        setQuery('');
+        setWeather(result)
+        console.log(result)
+      }))
+  }
+
+  useEffect(() => {
+    if(currentLatLon.lat && currentLatLon.lon) {
+      fetchCurrentWeatherData()
+    }
+  }, [currentLatLon])
+
+  useEffect(() =>{
+    if ("geolocation" in navigator) {
+      console.log("Available");
+      navigator.geolocation.getCurrentPosition(function(position) {
+        setCurrentLatLon({lat: position.coords.latitude, lon: position.coords.longitude})
+        console.log("Latitude is :", position.coords.latitude);
+        console.log("Longitude is :", position.coords.longitude);
+      });
+
+      
+    } else {
+      console.log("Not Available");
+    }
+  },[])
   const api={
     key:"48ea216f31139b35329ef6b49649837e",
     base:"https://api.openweathermap.org/data/2.5/"
