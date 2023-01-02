@@ -5,7 +5,7 @@ import './App.css'
 function App() {
   const api={
     key:"48ea216f31139b35329ef6b49649837e",
-    base:"http://api.openweathermap.org/data/2.5/"
+    base:"https://api.openweathermap.org/data/2.5/"
   }
   const[query,setQuery]=useState('');
   const[weather,setWeather]=useState({});
